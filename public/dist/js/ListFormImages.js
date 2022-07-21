@@ -23,6 +23,11 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     window.axios.get('/api/get-images/' + this.form_id, {}).then(function (response) {
+      if (response.data.status != 1) {
+        alert(response.data.message);
+        return false;
+      }
+
       _this.images = response.data.data.form_images;
     });
   }

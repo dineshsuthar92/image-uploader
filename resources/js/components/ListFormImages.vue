@@ -45,6 +45,13 @@
         mounted(){
             window.axios.get('/api/get-images/'+this.form_id,{})
                 .then(response => {
+
+                    if(response.data.status !=1){
+                        alert(response.data.message);
+                        return false;
+                    }
+
+
                     this.images = response.data.data.form_images;
                 });
         }

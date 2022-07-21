@@ -22,6 +22,11 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     window.axios.get('/api/get-forms', {}).then(function (response) {
+      if (response.data.status != 1) {
+        alert(response.data.message);
+        return false;
+      }
+
       _this.form_details = response.data.data.form_details;
     });
   }

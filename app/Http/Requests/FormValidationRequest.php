@@ -24,6 +24,10 @@ class FormValidationRequest extends FormRequest
         ];
     }
 
+    /**
+     * API response to provide if any laravel validation error is triggered
+     * @param Validator $validator
+     */
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(

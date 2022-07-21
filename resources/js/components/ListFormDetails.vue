@@ -47,6 +47,12 @@
         },
         mounted(){
             window.axios.get('/api/get-forms',{}).then(response => {
+
+                if(response.data.status !=1){
+                    alert(response.data.message);
+                    return false;
+                }
+
                 this.form_details = response.data.data.form_details
             });
         }

@@ -20,6 +20,8 @@ class ResponseServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      *
+     * To standardize the api response in format mention in readme.md
+     *
      * @return void
      */
     public function boot()

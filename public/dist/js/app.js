@@ -2144,6 +2144,10 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"](_route__WEBPACK_IMPORTED_MODULE_0__.Router);
+window.axios.defaults.headers.common = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+};
 
 vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vuelidate__WEBPACK_IMPORTED_MODULE_4__["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_2__["default"]({

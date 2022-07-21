@@ -35,6 +35,10 @@ import App from "./components/App";
 Vue.use(VueRouter);
 const router = new VueRouter(Router);
 
+window.axios.defaults.headers.common = {
+    'Content-Type':'application/json',
+    'Accept':'application/json'
+};
 
 import Vuelidate from 'vuelidate';
 Vue.use(Vuelidate);

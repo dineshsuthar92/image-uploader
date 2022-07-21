@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Models\StatusCode;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +41,27 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof NotFoundHttpException && $request->wantsJson()) {
+
+            return response()->api(StatusCode::RESOURCE_NOT_FOUND,'Resource not found on this endpoint', null);
+        }
+
+        if ($exception instanceof HttpException && $request->wantsJson()) {
+
+            $app = Application::getInstance();
+
+            if(true == $app->isDownForMaintenance()) {
+
+                return response()->api(StatusCode::MAINTENANCE_MODE,'Server is in maintenance mode', null);
+            }
+        }
+
+
+        return parent::render($request, $exception);
     }
 }
