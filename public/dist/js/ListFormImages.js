@@ -12,7 +12,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ListFormImages"
+  name: "ListFormImages",
+  data: function data() {
+    return {
+      form_id: this.$route.params.form_id,
+      images: []
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    window.axios.get('/api/get-images/' + this.form_id, {}).then(function (response) {
+      _this.images = response.data.data.form_images;
+    });
+  }
 });
 
 /***/ }),
@@ -32,14 +45,45 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _vm._m(0);
+  return _c("div", [_vm.images.length > 0 ? [_c("table", {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.images, function (fi, index) {
+    return _c("tr", {
+      attrs: {
+        id: fi.id
+      }
+    }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_c("img", {
+      staticStyle: {
+        width: "41%"
+      },
+      attrs: {
+        src: "/form_images/" + fi.uploaded_image,
+        alt: ""
+      }
+    })])]);
+  }), 0)])] : [_vm._m(1)]], 2);
 };
 
 var staticRenderFns = [function () {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("h1", [_vm._v("This is list form images")])]);
+  return _c("thead", [_c("tr", [_c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("#")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Image")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("table", {
+    staticClass: "table"
+  }, [_c("thead", [_c("tr", [_c("td", [_c("h4", [_vm._v("NO DATA AVAILABLE")])])])])]);
 }];
 render._withStripped = true;
 

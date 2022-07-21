@@ -3,11 +3,11 @@
 
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" v-model="title"  placeholder="Enter Title">
+                <input type="text"  class="form-control" id="title" v-model="title"  placeholder="Enter Title">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" class="form-control" id="description" cols="30" rows="10" v-model="description"></textarea>
+                <textarea placeholder="Please enter description" name="description"  class="form-control" id="description" cols="30" rows="10" v-model="description"></textarea>
 
             </div>
 
@@ -67,8 +67,10 @@
 
 <script>
     import UploadService from "../services/UploadFileService";
+
     export default {
         name: "MainForm",
+
         data(){
             return {
                 title:"",
@@ -80,11 +82,8 @@
                 form_id:"",
             }
         },
-        mounted() {
-            // UploadService.getFiles().then((response) => {
-            //     this.fileInfos = response.data;
-            // });
-        },
+
+
         methods: {
             selectFile() {
                 this.progressInfos = [];
@@ -103,6 +102,12 @@
                         {}
                     )
                     .then(response => {
+
+                        if(response.data.status !=1){
+                            alert(response.data.message);
+                            return false;
+                        }
+
                         this.form_id = response.data.data.form_id;
 
                         // then upload the images with form_id
@@ -110,6 +115,8 @@
                         for (let i = 0; i < this.selectedFiles.length; i++) {
                             this.upload(i, this.selectedFiles[i]);
                         }
+
+                        this.selectedFiles = undefined;
 
                     })
                     .catch(error => {

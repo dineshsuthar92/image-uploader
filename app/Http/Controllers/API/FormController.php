@@ -14,6 +14,12 @@ class FormController extends Controller
 {
     use ImageUpload;
 
+    /**
+     * API to save textual details of form.
+     *
+     * @param FormValidationRequest $request
+     * @return mixed
+     */
     public function saveFormDetails(FormValidationRequest $request)
     {
         $new_form = new GeneralForm();
@@ -28,6 +34,11 @@ class FormController extends Controller
         ]);
     }
 
+    /**
+     * API method to store uploaded images under the form id
+     * @param Request $request
+     * @return mixed
+     */
     public function saveImages(Request $request)
     {
         $form_id = $request->form_id;
@@ -50,13 +61,36 @@ class FormController extends Controller
         return response()->api(StatusCode::TRUE, 'Image uploaded successfully', null);
     }
 
-    public function viewFormDetails($form_id)
+    /**
+     * Get all the forms in descending order
+     * @return mixed
+     */
+    public function getForms()
     {
+        $form_details = GeneralForm::latest()->get()->toArray();
 
+        return response()->api(StatusCode::TRUE, 'form details fetched successfully',[
+            'form_details' => $form_details
+        ]);
+    }
+
+    /**
+     * Get all the images uploaded under single form id
+     * @param $form_id
+     * @return mixed
+     */
+    public function getImages($form_id)
+    {
         $form = GeneralForm::find($form_id);
 
         if(false == $form){
             return response()->api(StatusCode::FALSE, 'Invalid form id', null);
         }
+
+        $form_images = FormImage::getByForm_id($form_id)->toArray();
+
+        return response()->api(StatusCode::TRUE, 'form images fetched successfully',[
+            'form_images' => $form_images
+        ]);
     }
 }

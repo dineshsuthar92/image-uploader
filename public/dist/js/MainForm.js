@@ -26,10 +26,6 @@ __webpack_require__.r(__webpack_exports__);
       form_id: ""
     };
   },
-  mounted: function mounted() {// UploadService.getFiles().then((response) => {
-    //     this.fileInfos = response.data;
-    // });
-  },
   methods: {
     selectFile: function selectFile() {
       this.progressInfos = [];
@@ -43,6 +39,11 @@ __webpack_require__.r(__webpack_exports__);
         title: this.title,
         description: this.description
       }, {}).then(function (response) {
+        if (response.data.status != 1) {
+          alert(response.data.message);
+          return false;
+        }
+
         _this.form_id = response.data.data.form_id; // then upload the images with form_id
 
         _this.message = "";
@@ -50,6 +51,8 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < _this.selectedFiles.length; i++) {
           _this.upload(i, _this.selectedFiles[i]);
         }
+
+        _this.selectedFiles = undefined;
       })["catch"](function (error) {
         console.log('error');
       });
@@ -140,6 +143,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
+      placeholder: "Please enter description",
       name: "description",
       id: "description",
       cols: "30",

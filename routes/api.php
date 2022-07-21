@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::group(['middleware' => 'throttle:api'], function () {
+Route::group(['middleware' => []], function () {
     Route::post('save-form-details', ['as'=>'save.form.details', 'uses' => 'API\FormController@saveFormDetails']);
     Route::post('save-images', ['as'=>'save.images', 'uses' => 'API\FormController@saveImages']);
+
+    Route::get('get-forms', ['as'=>'get.forms', 'uses' => 'API\FormController@getForms']);
+    Route::get('get-images/{form_id}', ['as'=>'get.forms', 'uses' => 'API\FormController@getImages']);
 });

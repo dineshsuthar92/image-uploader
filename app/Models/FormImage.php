@@ -10,4 +10,8 @@ class FormImage extends Model
     protected $table = 'form_images';
     use HasFactory;
 
+    public static function getByForm_id($form_id)
+    {
+        return self::where('general_form_id', $form_id)->get();
+    }
 }
