@@ -2,6 +2,8 @@
 namespace App\Traits;
 
 
+use Illuminate\Support\Facades\File;
+
 trait ImageUpload
 {
     /**
@@ -19,6 +21,20 @@ trait ImageUpload
         $file->move($public_upload_path,$image_full_name);
 
         return $image_full_name; // Just return image name
+    }
+
+    public function deleteFile($file_name, $public_path)
+    {
+        $file_exist = File::exists($public_path.'/'.$file_name);
+
+        if(false == $file_exist){
+            return false;
+        }
+
+        File::delete($public_path.''.$file_name);
+
+        return true;
+
     }
 
     /**

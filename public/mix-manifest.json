@@ -5,5 +5,8 @@
     "/dist/js/ListFormDetails.js": "/dist/js/ListFormDetails.js",
     "/dist/js/ListFormImages.js": "/dist/js/ListFormImages.js",
     "/dist/js/MainForm.js": "/dist/js/MainForm.js",
-    "/dist/css/app.css": "/dist/css/app.css"
+    "/dist/css/app.css": "/dist/css/app.css",
+    "/dist/js/MainForm-vue___jb_tmp___.js": "/dist/js/MainForm-vue___jb_tmp___.js",
+    "/dist/js/ListFormDetails-vue___jb_tmp___.js": "/dist/js/ListFormDetails-vue___jb_tmp___.js",
+    "/dist/js/ListFormImages-vue___jb_tmp___.js": "/dist/js/ListFormImages-vue___jb_tmp___.js"
 }

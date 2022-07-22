@@ -93,4 +93,48 @@ class FormController extends Controller
             'form_images' => $form_images
         ]);
     }
+
+    public function deleteSingleForm($form_id)
+    {
+        $form = GeneralForm::find($form_id);
+
+        if(false == $form){
+            abort(404);
+        }
+
+        $images = FormImage::getByForm_id($form_id);
+
+        foreach($images as $image) {
+            $this->deleteFile($image->uploaded_image, 'form_images/');
+        }
+
+        FormImage::deleteByFormId($form_id);
+        $form->delete();
+
+        return response()->api(StatusCode::TRUE, 'Form details deleted successfully', [
+            'form_id' => $form_id
+        ]);
+
+    }
+
+    public function deleteSingleImage($image_id)
+    {
+        $image = FormImage::find($image_id);
+
+        if(false == $image){
+            abort(404);
+        }
+
+        $delete_image = $this->deleteFile($image->uploaded_image, 'form_images/');
+
+        if(false == $delete_image){
+            return response()->api(StatusCode::FALSE, 'unable to delete image', null);
+        }
+
+        $image->delete();
+
+        return response()->api(StatusCode::TRUE, 'image deleted successfully', [
+            'image_id' => $image_id
+        ]);
+    }
 }

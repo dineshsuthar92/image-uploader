@@ -1,6 +1,7 @@
 <template>
     <div class="container-fluid">
-
+        <router-link :to="{name:'list_form_details'}" class="btn btn-success float-right">View Submitted Forms >></router-link>
+        <br><br>
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text"  class="form-control" id="title" v-model="title"  placeholder="Enter Title">
@@ -14,6 +15,18 @@
 
         <!--Upload part-->
         <div>
+
+            <label class="btn btn-default">
+                <input type="file" accept="image/*" multiple @change="selectFile" />
+            </label>
+            <br>
+            <button class="btn btn-success"
+                    :disabled="!selectedFiles"
+                    @click="uploadFiles"
+            >
+                Submit
+            </button>
+
             <div v-if="progressInfos">
                 <div class="mb-2"
                      v-for="(progressInfo, index) in progressInfos"
@@ -33,22 +46,14 @@
                     </div>
                 </div>
             </div>
-            <label class="btn btn-default">
-                <input type="file" accept="image/*" multiple @change="selectFile" />
-            </label>
-            <button class="btn btn-success"
-                    :disabled="!selectedFiles"
-                    @click="uploadFiles"
-            >
-                Upload
-            </button>
-            <div v-if="message" class="alert alert-light" role="alert">
-                <ul>
-                    <li v-for="(ms, i) in message.split('\n')" :key="i">
-                        {{ ms }}
-                    </li>
-                </ul>
-            </div>
+
+            <!--<div v-if="message" class="alert alert-light" role="alert">-->
+                <!--<ul>-->
+                    <!--<li v-for="(ms, i) in message.split('\n')" :key="i">-->
+                        <!--{{ ms }}-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
             <!--<div class="card">-->
                 <!--<div class="card-header">List of Files</div>-->
                 <!--<ul class="list-group list-group-flush">-->
@@ -62,6 +67,30 @@
                 <!--</ul>-->
             <!--</div>-->
         </div>
+
+        <!--Modal start-->
+        <div id="appmodal">
+            <div v-if="showModal">
+                <transition name="modal">
+                    <div class="modal-mask">
+                        <div class="modal-wrapper">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Form Submitted Successfully</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Form submitted successfully</p>
+                                        <p>Redirecting to next page in {{ count_down }} seconds</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+        </div>
+        <!--Modal end-->
     </div>
 </template>
 
@@ -73,6 +102,8 @@
 
         data(){
             return {
+                showModal: false,
+                count_down:10,
                 title:"",
                 description:"",
                 selectedFiles: undefined,
@@ -85,6 +116,18 @@
 
 
         methods: {
+
+            countdown() {
+                var i = this.count_down;
+                if (i<=0) {
+
+                    window.location.href='/list-form-details';
+                }
+                if (i!=0) {
+                    this.count_down = i-1;
+                }
+            },
+
             selectFile() {
                 this.progressInfos = [];
                 this.selectedFiles = event.target.files;
@@ -118,6 +161,10 @@
 
                         this.selectedFiles = undefined;
 
+                        setTimeout(() => this.showModal = true, 2000);
+
+                        setInterval(() => { this.countdown(); },1000);
+
                     })
                     .catch(error => {
                         console.log('error');
@@ -147,5 +194,20 @@
 </script>
 
 <style scoped>
+    .modal-mask {
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        display: table;
+        transition: opacity .3s ease;
+    }
 
+    .modal-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+    }
 </style>

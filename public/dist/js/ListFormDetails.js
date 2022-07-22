@@ -29,6 +29,18 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.form_details = response.data.data.form_details;
     });
+  },
+  methods: {
+    deleteEntry: function deleteEntry(index) {
+      var form_id = this.form_details[index]['id'];
+      this.form_details.splice(index, 1);
+      window.axios.get('/api/delete-form/' + form_id, {}).then(function (response) {
+        if (response.data.status != 1) {
+          alert(response.data.message);
+          return false;
+        }
+      });
+    }
   }
 });
 
@@ -49,7 +61,14 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_vm.form_details.length > 0 ? [_c("table", {
+  return _c("div", [_c("router-link", {
+    staticClass: "btn btn-success",
+    attrs: {
+      to: {
+        name: "main"
+      }
+    }
+  }, [_vm._v("<< Go Back")]), _vm._v(" "), _vm.form_details.length > 0 ? [_c("table", {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.form_details, function (fd, index) {
     return _c("tr", {
@@ -70,7 +89,14 @@ var render = function render() {
           }
         }
       }
-    }, [_vm._v("View Images")])], 1)]);
+    }, [_vm._v("View Images")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger",
+      on: {
+        click: function click($event) {
+          return _vm.deleteEntry(index);
+        }
+      }
+    }, [_vm._v("Delete Entry")])], 1)]);
   }), 0)])] : [_vm._m(1)]], 2);
 };
 
@@ -94,7 +120,7 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("View Images")])])]);
+  }, [_vm._v("Action")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;

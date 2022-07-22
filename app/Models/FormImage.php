@@ -14,4 +14,9 @@ class FormImage extends Model
     {
         return self::where('general_form_id', $form_id)->get();
     }
+
+    public static function deleteByFormId($form_id)
+    {
+        return self::where('general_form_id', $form_id)->delete();
+    }
 }

@@ -24,4 +24,7 @@ Route::group(['middleware' => []], function () {
 
     Route::get('get-forms', ['as'=>'get.forms', 'uses' => 'API\FormController@getForms']);
     Route::get('get-images/{form_id}', ['as'=>'get.forms', 'uses' => 'API\FormController@getImages']);
+
+    Route::get('delete-form/{form_id}', ['as'=>'delete.form', 'uses' => 'API\FormController@deleteSingleForm']);
+    Route::get('delete-image/{image_id}', ['as'=>'delete.image', 'uses' => 'API\FormController@deleteSingleImage']);
 });
