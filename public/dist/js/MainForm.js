@@ -47,7 +47,22 @@ __webpack_require__.r(__webpack_exports__);
     uploadFiles: function uploadFiles() {
       var _this = this;
 
-      // first save title and Image
+      var file_size_error = false;
+
+      for (var i = 0; i < this.selectedFiles.length; i++) {
+        var file_size = this.selectedFiles[i].size / Math.pow(1024, 2);
+
+        if (file_size > 2) {
+          alert(this.selectedFiles[i].name + ' is too big to upload');
+          file_size_error = true;
+          break;
+        }
+      }
+
+      if (true === file_size_error) {
+        return false;
+      }
+
       window.axios.post("/api/save-form-details", {
         title: this.title,
         description: this.description
@@ -61,8 +76,8 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.message = "";
 
-        for (var i = 0; i < _this.selectedFiles.length; i++) {
-          _this.upload(i, _this.selectedFiles[i]);
+        for (var _i = 0; _i < _this.selectedFiles.length; _i++) {
+          _this.upload(_i, _this.selectedFiles[_i]);
         }
 
         _this.selectedFiles = undefined;
@@ -184,7 +199,9 @@ var render = function render() {
         _vm.description = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", [_c("label", {
+  })]), _vm._v(" "), _c("div", [_c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v("(Individual file size must be less than 2 MB)")]), _vm._v(" "), _c("br"), _vm._v(" "), _c("label", {
     staticClass: "btn btn-default"
   }, [_c("input", {
     attrs: {

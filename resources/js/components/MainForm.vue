@@ -16,6 +16,7 @@
         <!--Upload part-->
         <div>
 
+            <small class="text-danger">(Individual file size must be less than 2 MB)</small> <br>
             <label class="btn btn-default">
                 <input type="file" accept="image/*" multiple @change="selectFile" />
             </label>
@@ -133,7 +134,21 @@
                 this.selectedFiles = event.target.files;
             },
             uploadFiles() {
-                // first save title and Image
+
+                var file_size_error = false;
+                for (let i = 0; i < this.selectedFiles.length; i++) {
+                    let file_size = this.selectedFiles[i].size / (1024 ** 2);
+                    if(file_size > 2){
+                        alert(this.selectedFiles[i].name + ' is too big to upload');
+
+                        file_size_error = true;
+                        break;
+                    }
+                }
+
+                if(true === file_size_error){
+                    return false;
+                }
 
                 window.axios
                     .post(
